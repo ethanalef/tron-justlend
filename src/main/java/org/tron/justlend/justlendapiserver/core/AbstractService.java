@@ -15,7 +15,7 @@ public abstract class AbstractService<T> implements Service<T> {
   @Autowired
   protected Mapper<T> mapper;
 
-  protected AbstractService() {
+  public AbstractService() {
     ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
     modelClass = (Class<T>) pt.getActualTypeArguments()[0];
   }

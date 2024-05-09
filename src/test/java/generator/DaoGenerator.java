@@ -24,18 +24,13 @@ public class DaoGenerator {
   private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 
   private static final String PROJECT_PATH = System.getProperty("user.dir");
-  private static final String TEMPLATE_FILE_PATH =
-    PROJECT_PATH + "/src/test/resources/generator/template";
-
+  private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/java/generator/template";
   private static final String JAVA_PATH = "/src/main/java";
   private static final String RESOURCES_PATH = "/src/main/resources";
 
-  private static final String PACKAGE_PATH_SERVICE = packageConvertPath(
-    SERVICE_PACKAGE);
-  private static final String PACKAGE_PATH_SERVICE_IMPL = packageConvertPath(
-    SERVICE_IMPL_PACKAGE);
-  private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(
-    CONTROLLER_PACKAGE);
+  private static final String PACKAGE_PATH_SERVICE = packageConvertPath(SERVICE_PACKAGE);
+  private static final String PACKAGE_PATH_SERVICE_IMPL = packageConvertPath(SERVICE_IMPL_PACKAGE);
+  private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(CONTROLLER_PACKAGE);
 
   private static final String AUTHOR = "CodeGenerator";//@author
   private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());//@date

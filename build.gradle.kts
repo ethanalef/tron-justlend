@@ -34,6 +34,7 @@ dependencies {
 	implementation("com.alibaba.fastjson2:fastjson2:2.0.43")
 	implementation("com.alibaba.fastjson2:fastjson2-extension-spring5:2.0.43")
 	implementation("ch.qos.logback:logback-core:1.5.5")
+	implementation("com.mysql:mysql-connector-j:8.4.0")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	compileOnly("org.projectlombok:lombok:1.18.32")
