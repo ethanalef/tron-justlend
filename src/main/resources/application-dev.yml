@@ -10,4 +10,8 @@ spring:
     password: ........
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-chaser:
+#----------logback---------------
+logging:
+  level:
+    root: INFO
+    org.wsdscu.cums.backend: DEBUG

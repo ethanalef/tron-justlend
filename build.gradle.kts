@@ -33,6 +33,7 @@ dependencies {
 	implementation("org.springframework.retry:spring-retry:2.0.5")
 	implementation("com.alibaba.fastjson2:fastjson2:2.0.43")
 	implementation("com.alibaba.fastjson2:fastjson2-extension-spring5:2.0.43")
+	implementation("ch.qos.logback:logback-core:1.5.5")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	compileOnly("org.projectlombok:lombok:1.18.32")
@@ -45,6 +46,7 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 	testImplementation("org.freemarker:freemarker")
 	testImplementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
+	testImplementation("ch.qos.logback:logback-classic:1.5.5")
 }
 
 tasks.withType<Test> {
