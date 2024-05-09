@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: JustLend API Server
+  profiles:
+    active: dev
+

@@ -1,0 +1,13 @@
+#----------port-------------------
+server:
+  port: 10179
+
+spring:
+  #----------database---------------
+  datasource:
+    jdbc-url: jdbc:mysql://192.168.1.27:3306/justlend?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: ethan
+    password: ........
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+chaser:
