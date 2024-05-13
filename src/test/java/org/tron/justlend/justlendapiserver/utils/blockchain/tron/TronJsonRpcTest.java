@@ -137,4 +137,9 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
     var filter = tronJsonRpc.getEthFilter(new BigInteger("61437737"), new BigInteger("61447964"), null, List.of("TKRQdrYXgrFSBx6jjfqRv6vFdsDZA9iG4q"));
     var logs = tronJsonRpc.getLog(filter);
   }
+
+  @Test
+  void getCurrentHeight() {
+    BigInteger curHeight = tronJsonRpc.getCurrentHeight();
+  }
 }

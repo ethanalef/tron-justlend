@@ -26,7 +26,7 @@ public record EventLog(
     return "";
   }
 
-  public String getLogIndex() {
+  public String getUniqueId() {
     return transactionId + "_" + logIndex;
   }
 }

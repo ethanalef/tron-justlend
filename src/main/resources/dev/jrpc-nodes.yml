@@ -1,9 +1,4 @@
 jrpc-nodes:
-  prod:
-    - id: prod-trongrid-node-1
-      node: https://api.trongrid.io/jsonrpc
-      header: TRON-PRO-API-KEY
-      api-key: d6aa913b-9b7e-49b1-a417-4982652e7cd5
   tron:
     - id: nile-trongrid-node-1
       node: https://nile.trongrid.io/jsonrpc
@@ -19,6 +14,4 @@ jrpc-nodes:
       api-key: 97477a69-cf81-42da-b299-b07c53ef03cb
   eth:
     - id: eth-goerli-trongrid-node-1
-      node: https://eth-goerli.trongrid.io
-      header:
-      api-key:
+      node: https://eth-goerli.trongrid.io/jsonrpc

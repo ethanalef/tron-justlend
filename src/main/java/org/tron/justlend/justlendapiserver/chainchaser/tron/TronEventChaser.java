@@ -2,17 +2,17 @@ package org.tron.justlend.justlendapiserver.chainchaser.tron;
 
 import org.tron.justlend.justlendapiserver.chainchaser.EventChaser;
 import org.tron.justlend.justlendapiserver.chainchaser.dto.EventLog;
+import org.tron.justlend.justlendapiserver.service.ChaserProgressService;
 import org.tron.justlend.justlendapiserver.utils.blockchain.tron.TronAddressUtils;
 import org.tron.justlend.justlendapiserver.utils.blockchain.tron.TronJsonRpc;
 import org.tron.justlend.justlendapiserver.utils.web3j.dto.TransactionReceiptDTO;
 
 import java.util.List;
 
-public class TronEventChaser extends EventChaser {
-  protected TronEventChaser(TronJsonRpc tronJsonRpc) {
-    super(tronJsonRpc);
+public abstract class TronEventChaser extends EventChaser {
+  protected TronEventChaser(TronJsonRpc tronJsonRpc, ChaserProgressService chaserProgressService) {
+    super(tronJsonRpc, chaserProgressService);
   }
-
 
   @Override
   protected List<EventLog> getEventLog(TransactionReceiptDTO transactionReceiptDTO, long timestamp) {

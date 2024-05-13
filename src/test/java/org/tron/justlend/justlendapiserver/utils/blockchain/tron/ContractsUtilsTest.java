@@ -3,7 +3,7 @@ package org.tron.justlend.justlendapiserver.utils.blockchain.tron;
 import org.junit.jupiter.api.Test;
 import org.tron.justlend.justlendapiserver.JustLendApiServerApplicationTests;
 
-class TronAddressUtilsTest extends JustLendApiServerApplicationTests {
+class ContractsUtilsTest extends JustLendApiServerApplicationTests {
 
   @Test
   void base58ToHexTest() {

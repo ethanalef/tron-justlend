@@ -12,7 +12,7 @@ import java.util.Map;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "jrpc-nodes")
-@PropertySource(value = "classpath:jrpc-nodes.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:${spring.profiles.active}/jrpc-nodes.yml", factory = YamlPropertySourceFactory.class)
 public class JsonRpcNodes {
   private List<Map<String, String>> tron;
   private List<Map<String, String>> eth;

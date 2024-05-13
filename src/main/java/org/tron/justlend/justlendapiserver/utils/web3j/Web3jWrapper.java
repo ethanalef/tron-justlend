@@ -24,6 +24,12 @@ public class Web3jWrapper {
   }
 
   @Retryable(retryFor = { TimeoutException.class, ExecutionException.class, InterruptedException.class })
+  public EthBlockNumber ethBlockNumber() throws ExecutionException, InterruptedException, TimeoutException {
+    CompletableFuture<EthBlockNumber> future = web3j.ethBlockNumber().sendAsync();
+    return future.get(TIMEOUT, TimeUnit.SECONDS);
+  }
+
+  @Retryable(retryFor = { TimeoutException.class, ExecutionException.class, InterruptedException.class })
   public EthGetCode ethGetCode(String address, DefaultBlockParameter defaultBlockParameter) throws ExecutionException, InterruptedException, TimeoutException {
     CompletableFuture<EthGetCode> future = web3j.ethGetCode(address, defaultBlockParameter).sendAsync();
     return future.get(TIMEOUT, TimeUnit.SECONDS);

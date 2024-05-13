@@ -28,6 +28,7 @@ public class TransactionReceiptDTO {
   public static TransactionReceiptDTO format(TransactionReceipt transactionReceipt) {
     String str = JSON.toJSONString(transactionReceipt);
     TransactionReceiptDTO transactionReceiptDTO = JSON.parseObject(str, TransactionReceiptDTO.class);
+    transactionReceiptDTO.getLogs().forEach(l -> l.setLogIndex(String.valueOf(transactionReceiptDTO.getLogs().indexOf(l))));
     return transactionReceiptDTO;
   }
 }

@@ -1,0 +1,14 @@
+tokens:
+  tron:
+    - symbol: WJST
+      name: Wrapped JST
+      address: TXk9LnTnLN7oH96H3sKxJayMxLxR9M4ZD6
+      decimals: 18
+    - symbol: WJSTOLD
+      name: Wrapped JST Old
+      address: TCczUFrX1u4v1mzjBVXsiVyehj1vCaNxDt
+      decimals: 18
+    - symbol: JST
+      name: JUST
+      address: TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9
+      decimals: 18

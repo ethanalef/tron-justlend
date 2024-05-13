@@ -30,6 +30,17 @@ public class EthJsonRpc implements Web3jQuery {
     this.jsonRpcPool = jsonRpcPool;
   }
 
+  public BigInteger getCurrentHeight() throws Web3jQueryException {
+    Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
+    try {
+      EthBlockNumber ethBlockNumber = web3jWrapper.ethBlockNumber();
+      return ethBlockNumber.getBlockNumber();
+    } catch (Exception e) {
+      String exceptionMsg = web3jWrapper.getIdentifier() + " getCurrentHeight exception";
+      throw new Web3jQueryException(exceptionMsg, e);
+    }
+  }
+
   public boolean isContract(String address) throws Web3jQueryException {
     Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
     try {
@@ -37,8 +48,7 @@ public class EthJsonRpc implements Web3jQuery {
       String code = ethGetCode.getCode();
 
       if (code == null) {
-        throw new Web3jQueryException(String.format("%s isContract failed, no code available for addr=%s",
-          web3jWrapper.getIdentifier(), address));
+        throw new Web3jQueryException(String.format("isContract failed, no code available for addr=%s", address));
       }
 
       return !"0x".equals(code);
