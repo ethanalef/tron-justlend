@@ -4,7 +4,9 @@ import lombok.Getter;
 import org.springframework.retry.annotation.Retryable;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 
 import java.util.concurrent.CompletableFuture;
@@ -56,6 +58,12 @@ public class Web3jWrapper {
   @Retryable(retryFor = { TimeoutException.class, ExecutionException.class, InterruptedException.class })
   public EthBlock ethGetBlockByNumber(DefaultBlockParameter defaultBlockParameter) throws ExecutionException, InterruptedException, TimeoutException {
     CompletableFuture<EthBlock> future = web3j.ethGetBlockByNumber(defaultBlockParameter, false).sendAsync();
+    return future.get(TIMEOUT, TimeUnit.SECONDS);
+  }
+
+  @Retryable(retryFor = { TimeoutException.class, ExecutionException.class, InterruptedException.class })
+  public EthCall ethCall(Transaction transaction) throws ExecutionException, InterruptedException, TimeoutException {
+    CompletableFuture<EthCall> future = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync();
     return future.get(TIMEOUT, TimeUnit.SECONDS);
   }
 }

@@ -14,6 +14,7 @@ import java.util.SortedMap;
 
 
 public interface Web3jQuery {
+  // Chain query
   BigInteger getCurrentHeight();
   boolean isContract(String address);
   EthFilter getEthFilter(BigInteger startBlockNum, BigInteger endBlockNum, List<String> topics, List<String> contracts);

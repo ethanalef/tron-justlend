@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.tron.justlend.justlendapiserver.JustLendApiServerApplicationTests;
+import org.tron.justlend.justlendapiserver.config.Tokens;
+import org.tron.justlend.justlendapiserver.utils.web3j.ConstantFunction;
+import org.web3j.abi.datatypes.Function;
 import org.web3j.protocol.core.methods.request.EthFilter;
 
 import java.math.BigInteger;
@@ -23,6 +26,8 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
 
   @Autowired
   TronJsonRpc tronJsonRpc;
+  @Autowired
+  Tokens tokens;
 
   EthFilter getFilter_TRANSFER() {
     /*
@@ -101,15 +106,15 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   void getLog_TRANSFER_Test() {
     // get filtered logs
     var logs = tronJsonRpc.getLog(getFilter_TRANSFER());
-    Assertions.assertEquals(logs.getLogs().size(), getBlockHash_TRANSFER().size(), "Inconsistent size!");
+    Assertions.assertEquals(getBlockHash_TRANSFER().size(), logs.getLogs().size(), "Inconsistent size!");
   }
 
   @Test
   void getBlockTxnMap_TRANSFER_Test() {
     // get filtered Block+TxnHsh
     var map = tronJsonRpc.getBlockTxnMap(getFilter_TRANSFER());
-    Assertions.assertEquals(map.size(), getBlockHash_TRANSFER().size(), "Inconsistent size!");
-    Assertions.assertEquals(map.entrySet(), getBlockHash_TRANSFER().entrySet(), "Inconsistent elements!");
+    Assertions.assertEquals(getBlockHash_TRANSFER().size(), map.size(), "Inconsistent size!");
+    Assertions.assertEquals(getBlockHash_TRANSFER().entrySet(), map.entrySet(), "Inconsistent elements!");
   }
 
   @Test
@@ -141,5 +146,22 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   @Test
   void getCurrentHeight() {
     BigInteger curHeight = tronJsonRpc.getCurrentHeight();
+  }
+
+  @Test
+  void triggerConstantContractTest() {
+    String address = tokens.getTronTokenBySymbol("WJST").address();
+    Function function = ConstantFunction.decimals();
+    BigInteger decimals = tronJsonRpc.triggerConstantContract(address, function, BigInteger.class);
+    Assertions.assertEquals(new BigInteger("18"), decimals);
+    function = ConstantFunction.name();
+    String name = tronJsonRpc.triggerConstantContract(address, function, String.class);
+    Assertions.assertEquals("Wrapped JST", name);
+    function = ConstantFunction.symbol();
+    String symbol = tronJsonRpc.triggerConstantContract(address, function, String.class);
+    Assertions.assertEquals("WJST", symbol);
+    function = ConstantFunction.balanceOf("abc");
+    BigInteger balance = tronJsonRpc.triggerConstantContract(address, function, BigInteger.class);
+    Assertions.assertEquals(BigInteger.ZERO, balance);
   }
 }

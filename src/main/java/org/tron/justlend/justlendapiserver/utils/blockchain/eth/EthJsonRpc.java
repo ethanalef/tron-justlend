@@ -2,24 +2,29 @@ package org.tron.justlend.justlendapiserver.utils.blockchain.eth;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.tron.justlend.justlendapiserver.config.jsonrpc.JsonRpcPool;
 import org.tron.justlend.justlendapiserver.utils.web3j.Web3jQuery;
 import org.tron.justlend.justlendapiserver.utils.web3j.Web3jQueryException;
 import org.tron.justlend.justlendapiserver.utils.web3j.Web3jWrapper;
 import org.tron.justlend.justlendapiserver.utils.web3j.dto.BlockDTO;
 import org.tron.justlend.justlendapiserver.utils.web3j.dto.TransactionReceiptDTO;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.FunctionReturnDecoder;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.CompletionException;
+
+import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 @Component
 public class EthJsonRpc implements Web3jQuery {
@@ -173,8 +178,38 @@ public class EthJsonRpc implements Web3jQuery {
     if (ethTransaction != null && !ethTransaction.hasError()) {
       return ethTransaction;
     }
-    String errorMessage = web3jWrapper.getIdentifier() + " "
-                            + (ethTransaction.getError() == null ? "getTransactionByHash null" : ethTransaction.getError().getMessage());
+    String errorMessage;
+    if (ethTransaction != null) {
+      errorMessage = String.format("%s getTransactionByHash error for %s %s",
+        web3jWrapper.getIdentifier(), txnHash, ethTransaction.getError().getMessage());
+    } else {
+      errorMessage = web3jWrapper.getIdentifier() + " getTransactionByHash null for " + txnHash;
+    }
     throw new Web3jQueryException(errorMessage);
+  }
+
+  public <T> T triggerConstantContract(String address, Function function, Class<T> returnType) throws Web3jQueryException {
+    Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
+    String data = FunctionEncoder.encode(function);
+    Transaction transaction = createEthCallTransaction(null, address, data);
+    EthCall ethCall;
+    try {
+      ethCall = web3jWrapper.ethCall(transaction);
+    } catch (Exception e) {
+      String exceptionMsg = web3jWrapper.getIdentifier() + " triggerConstantContract exception";
+      throw new Web3jQueryException(exceptionMsg, e);
+    }
+    if (ethCall.hasError()) {
+      String exceptionMsg = web3jWrapper.getIdentifier() + " triggerConstantContract error " + ethCall.getError().getMessage();
+      throw new Web3jQueryException(exceptionMsg);
+    }
+    List<Type> result = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
+    // https://docs.web3j.io/4.11.0/transactions/transactions_and_smart_contracts/
+    if (CollectionUtils.isEmpty(result)) {
+      String exceptionMsg = String.format("Invalid function call is made or a null result is obtained! address=%s function=%s",
+        address, function.getName());
+      throw new Web3jQueryException(exceptionMsg);
+    }
+    return returnType.cast(result.getFirst().getValue());
   }
 }
