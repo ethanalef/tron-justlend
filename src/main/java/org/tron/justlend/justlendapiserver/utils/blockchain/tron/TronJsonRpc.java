@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class TronJsonRpc extends EthJsonRpc implements Web3jQuery {
-  private final String emptyAddress = "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb";
   public TronJsonRpc(@Qualifier("tronJsonRpcPool") JsonRpcPool jsonRpcPool) {
     super(jsonRpcPool);
   }

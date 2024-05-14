@@ -19,10 +19,11 @@ import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.util.*;
-import java.util.concurrent.CompletionException;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
@@ -57,15 +58,6 @@ public class EthJsonRpc implements Web3jQuery {
       }
 
       return !"0x".equals(code);
-    } catch (CompletionException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof IOException) {
-        throw new Web3jQueryException(String.format("%s isContract failed addr=%s, network error=%s",
-          web3jWrapper.getIdentifier(), address, cause.getMessage()));
-      } else {
-        throw new Web3jQueryException(String.format("%s isContract failed addr=%s, err=%s",
-          web3jWrapper.getIdentifier(), address, e.getMessage()));
-      }
     } catch (Exception e) {
       throw new Web3jQueryException(String.format("%s isContract failed addr=%s, err=%s",
         web3jWrapper.getIdentifier(), address, e.getMessage()));
