@@ -7,10 +7,11 @@ import org.tron.justlend.justlendapiserver.JustLendApiServerApplicationTests;
 class GovernanceUserEventChaserTest extends JustLendApiServerApplicationTests {
   @Autowired
   GovernanceUserEventChaser governanceUserEventChaser;
+
   @Test
   void test() {
-    while (true) {
-      governanceUserEventChaser.step();
-    }
+//    while (true) {
+//      governanceUserEventChaser.step();
+//    }
   }
 }

@@ -27,20 +27,25 @@ public abstract class EventChaser {
   protected String event;
   protected BigInteger range;
   protected BigInteger startHeight;
+  protected BigInteger processedHeight;
 
   protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
   protected BigInteger getProcessedHeight() {
+    if (processedHeight != null) {
+      return processedHeight;
+    }
     ChaserProgress progress = chaserProgressService.findBy("event", event);
     return Optional.ofNullable(progress).map(ChaserProgress::getProcessedHeight).orElse(startHeight);
   }
 
   protected void updateProcessedHeight(BigInteger height) {
+    processedHeight = height;
     chaserProgressService.upsert(event, height);
   }
 
   public void step() {
-    BigInteger from = getProcessedHeight();
+    BigInteger from = getProcessedHeight().add(BigInteger.ONE);
     step(from);
   }
 
@@ -55,7 +60,10 @@ public abstract class EventChaser {
 
     processEventLog(eventLogs);
     updateProcessedHeight(to);
-    log.info("{} Found {}", event, eventLogs.size());
+    int found = eventLogs.size();
+    if (found > 0) {
+      log.info("{} Found {}", event, eventLogs.size());
+    }
   }
 
   public List<EventLog> fetchEventLog(BigInteger from, BigInteger to) {

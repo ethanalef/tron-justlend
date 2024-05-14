@@ -3,8 +3,6 @@ package org.tron.justlend.justlendapiserver.chainchaser.tron.chaser;
 import com.google.common.collect.Lists;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.tron.justlend.justlendapiserver.chainchaser.Event;
 import org.tron.justlend.justlendapiserver.chainchaser.EventSignature;
@@ -31,7 +29,6 @@ public class GovernanceUserEventChaser extends TronEventChaser {
   private final Contracts contracts;
   private final Tokens tokens;
   private final LendVoteRecordService lendVoteRecordService;
-  protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
 
