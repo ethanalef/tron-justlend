@@ -6,7 +6,9 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.tron.justlend.justlendapiserver.JustLendApiServerApplicationTests;
+import org.tron.justlend.justlendapiserver.config.Contracts;
 import org.tron.justlend.justlendapiserver.config.Tokens;
 import org.tron.justlend.justlendapiserver.utils.web3j.ConstantFunction;
 import org.web3j.abi.datatypes.Function;
@@ -22,12 +24,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
+
 class TronJsonRpcTest extends JustLendApiServerApplicationTests {
 
   @Autowired
   TronJsonRpc tronJsonRpc;
   @Autowired
   Tokens tokens;
+  @Autowired
+  Contracts contracts;
 
   EthFilter getFilter_TRANSFER() {
     /*
@@ -71,6 +76,7 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   }
 
   @Test
+  @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'dev'}", loadContext = true)
   void isContractTest() {
     /* main
     // TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
@@ -103,6 +109,7 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   }
 
   @Test
+  @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'dev'}", loadContext = true)
   void getLog_TRANSFER_Test() {
     // get filtered logs
     var logs = tronJsonRpc.getLog(getFilter_TRANSFER());
@@ -110,6 +117,7 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   }
 
   @Test
+  @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'dev'}", loadContext = true)
   void getBlockTxnMap_TRANSFER_Test() {
     // get filtered Block+TxnHsh
     var map = tronJsonRpc.getBlockTxnMap(getFilter_TRANSFER());
@@ -118,6 +126,7 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   }
 
   @Test
+  @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'dev'}", loadContext = true)
   void getTxnReceipt_RENT_Test() {
     // get filtered Block+TxnHsh
     var receipt = tronJsonRpc.getTxnReceipt("fd1dee209763467a4072eb0d82ab08a3f323c04eebde602a4387c7a54ccc1908");
@@ -129,6 +138,7 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
   }
 
   @Test
+  @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'dev'}", loadContext = true)
   void getTxnById_TransferTrx_Test() {
     // get filtered Block+TxnHsh
     var receipt = tronJsonRpc.getTxnReceipt("76125b50de4975459dad7aa515ea63c34609aa5372b71fa104886dabe8fbc701");
@@ -150,7 +160,7 @@ class TronJsonRpcTest extends JustLendApiServerApplicationTests {
 
   @Test
   void triggerConstantContractTest() {
-    String address = tokens.getTronTokenBySymbol("WJST").address();
+    String address = tokens.getTokenBySymbol("WJST").getAddress();
     Function function = ConstantFunction.decimals();
     BigInteger decimals = tronJsonRpc.triggerConstantContract(address, function, BigInteger.class);
     Assertions.assertEquals(new BigInteger("18"), decimals);

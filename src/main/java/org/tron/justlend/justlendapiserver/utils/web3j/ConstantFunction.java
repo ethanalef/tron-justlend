@@ -42,4 +42,11 @@ public class ConstantFunction {
       List.of(address),
       List.of(new TypeReference<org.web3j.abi.datatypes.Uint>(){}));
   }
+
+  public static Function read() {
+    return new Function(
+      "read",
+      List.of(),
+      List.of(new TypeReference<org.web3j.abi.datatypes.Uint>(){}));
+  }
 }

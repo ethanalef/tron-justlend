@@ -7,7 +7,7 @@ import org.tron.justlend.justlendapiserver.model.ChaserProgress;
 
 import java.util.List;
 
-class ChaserProgressTest extends JustLendApiServerApplicationTests {
+class ChaserProgressServiceTest extends JustLendApiServerApplicationTests {
   @Autowired
   ChaserProgressService chaserProgressService;
 

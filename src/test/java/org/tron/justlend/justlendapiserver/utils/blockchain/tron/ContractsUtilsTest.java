@@ -7,7 +7,7 @@ class ContractsUtilsTest extends JustLendApiServerApplicationTests {
 
   @Test
   void base58ToHexTest() {
-    String base58Address = TronAddressUtils.base58ToHex("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
+    String base58Address = TronAddressUtils.base58ToHex("TZ8du1HkatTWDbS6FLZei4dQfjfpSm9mxp");
   }
 
   @Test

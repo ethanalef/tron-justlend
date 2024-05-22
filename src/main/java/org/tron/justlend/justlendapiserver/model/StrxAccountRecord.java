@@ -12,8 +12,8 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "lend_vote_record")
-public class LendVoteRecord {
+@Table(name = "strx_account_record")
+public class StrxAccountRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +22,14 @@ public class LendVoteRecord {
     private String userAddress;
 
     /**
-     * 1: 兑换选票 2: 支持 3: 反對 4: 回收 5: 赎回选票 6: 赎回 JST
+     * 1: DEPOSIT 2: WITHDRAW 4: CLAIM 5: TRANSFER_OUT 6: TRANSFER_IN
      */
     @Column(name = "op_type")
     private Integer opType;
 
-    @Column(name = "proposal_id")
-    private Integer proposalId;
-
     private String amount;
+
+    private String usd;
 
     @Column(name = "tx_id")
     private String txId;

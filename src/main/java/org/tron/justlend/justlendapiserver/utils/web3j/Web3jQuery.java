@@ -8,6 +8,7 @@ import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.Log;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.SortedMap;
@@ -20,7 +21,7 @@ public interface Web3jQuery {
   EthFilter getEthFilter(BigInteger startBlockNum, BigInteger endBlockNum, List<String> topics, List<String> contracts);
   EthLog getLog(EthFilter filter);
   BlockDTO getBlock(BigInteger height);
-  long getBlockTime(BigInteger height);
+  Instant getBlockTime(BigInteger height);
   List<Log> getLogResult(EthFilter filter);
   SortedMap<BigInteger, LinkedHashSet<String>> getBlockTxnMap(EthFilter filter);
   TransactionReceiptDTO getTransactionReceiptDTO(String txnHash);

@@ -13,6 +13,7 @@ import org.tron.justlend.justlendapiserver.utils.web3j.dto.TransactionReceiptDTO
 import org.web3j.protocol.core.methods.request.EthFilter;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.*;
 
 @Slf4j
@@ -26,7 +27,7 @@ public abstract class EventChaser {
 
   protected String event;
   protected BigInteger range;
-  protected BigInteger startHeight;
+  protected BigInteger startHeight; // exclusive
   protected BigInteger processedHeight;
 
   protected Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -50,6 +51,8 @@ public abstract class EventChaser {
   }
 
   public void step(BigInteger from) {
+    // TODO: use @Timed for measuring cost
+    long t = System.currentTimeMillis();
     BigInteger currentHeight = web3jQuery.getCurrentHeight();
     if (currentHeight.compareTo(from) < 0) {
       String errorMessage = String.format("Current height %s not yet reach %s", currentHeight, from);
@@ -64,6 +67,7 @@ public abstract class EventChaser {
     if (found > 0) {
       log.info("{} Found {}", event, eventLogs.size());
     }
+    log.debug("{} step costs {}", event, System.currentTimeMillis() - t);
   }
 
   public List<EventLog> fetchEventLog(BigInteger from, BigInteger to) {
@@ -79,7 +83,7 @@ public abstract class EventChaser {
     List<EventLog> result = new ArrayList<>();
     for (var entry : blockTxnMap.entrySet()) {
       // get block info with timestamp
-      long timestamp = web3jQuery.getBlockTime(entry.getKey());
+      Instant timestamp = web3jQuery.getBlockTime(entry.getKey());
 
       // get transaction logs
       List<TransactionReceiptDTO> transactionLogDTOList = entry.getValue().parallelStream()
@@ -101,11 +105,11 @@ public abstract class EventChaser {
 
   protected abstract void processEvent(EventLog eventLog);
 
-  protected abstract List<EventLog> getEventLog(TransactionReceiptDTO transactionReceiptDTO, long timestamp);
-
   private boolean isTarget(EventLog eventLog) {
     boolean matchTopic = topic.isEmpty() || topic.contains(eventLog.topics().getFirst());
     boolean matchAddr = contract.isEmpty() || contract.contains(eventLog.contractAddress());
     return matchTopic && matchAddr;
   }
+
+  protected abstract List<EventLog> getEventLog(TransactionReceiptDTO transactionReceiptDTO, Instant timestamp);
 }

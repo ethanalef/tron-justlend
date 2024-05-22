@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.tron.justlend.justlendapiserver.dao.LendVoteRecordMapper">
-  <resultMap id="BaseResultMap" type="org.tron.justlend.justlendapiserver.model.LendVoteRecord">
+<mapper namespace="org.tron.justlend.justlendapiserver.dao.StrxAccountRecordMapper">
+  <resultMap id="BaseResultMap" type="org.tron.justlend.justlendapiserver.model.StrxAccountRecord">
     <!--
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
     <result column="op_type" jdbcType="INTEGER" property="opType" />
-    <result column="proposal_id" jdbcType="INTEGER" property="proposalId" />
     <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="usd" jdbcType="VARCHAR" property="usd" />
     <result column="tx_id" jdbcType="VARCHAR" property="txId" />
     <result column="log_index" jdbcType="INTEGER" property="logIndex" />
     <result column="event_time" jdbcType="TIMESTAMP" property="eventTime" />

@@ -15,3 +15,7 @@ logging:
   level:
     root: INFO
     org.tron.justlend.justlendapiserver: DEBUG
+
+#----------properties---------------
+uri:
+  price-centre: https://c.tronlink.org/v1/cryptocurrency/getprice

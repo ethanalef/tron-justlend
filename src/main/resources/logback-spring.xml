@@ -59,7 +59,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-    <!-- Logger for org.wsdscu.cums.backend.* at DEBUG level -->
+    <!-- Logger for org.tron.justlend.justlendapiserver.* at DEBUG level -->
     <logger name="org.tron.justlend.justlendapiserver.*" level="DEBUG" additivity="false">
         <appender-ref ref="DEBUG"/>
     </logger>
@@ -85,5 +85,6 @@
 
     <!-- Add this configuration to suppress the warning -->
     <logger name="org.mybatis.spring.mapper.ClassPathMapperScanner" level="ERROR" />
+    <logger name="com.zaxxer.hikari.pool.ProxyConnection" level="ERROR"/>
 
 </configuration>

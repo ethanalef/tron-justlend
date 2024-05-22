@@ -3,11 +3,12 @@ package org.tron.justlend.justlendapiserver.chainchaser.dto;
 import lombok.Builder;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.List;
 
 @Builder
 public record EventLog(
-  long timestamp,
+  Instant timestamp,
   int logIndex,
   String transactionId,
   String contractAddress,

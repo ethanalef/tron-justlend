@@ -1,5 +1,93 @@
 tokens:
-  tron:
+  list:
+    - symbol: TRX
+      name: TRON
+      address: T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb
+      decimals: 6
+    - symbol: WTRX
+      name: Wrapped TRX
+      address: TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR
+      decimals: 6
+    - symbol: sTRX
+      name: staked TRX
+      address: TU3kjFuhtEo42tsCBtfYUAZxoqQ4yuSLQ5
+      decimals: 18
+    - symbol: SUNOLD
+      name: SUN TOKEN
+      address: TKkeiboTkxXKJpbmVFbv4a8ov5rAfRDMf9
+      decimals: 18
+    - symbol: WBTT
+      name: Wrapped BitTorrent
+      address: TKfjV9RNKJJCqPvBtK8L7Knykh7DNWvnYt
+      decimals: 6
+    - symbol: WIN
+      name: WINK
+      address: TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7
+      decimals: 6
+    - symbol: BTC
+      name: Bitcoin
+      address: TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9
+      decimals: 8
+    - symbol: USDT
+      name: Tether USD
+      address: TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
+      decimals: 6
+    - symbol: JST
+      name: JUST
+      address: TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9
+      decimals: 18
+    - symbol: ETHOLD
+      name: EthereumOLD
+      address: THb4CqiFdwNHsWsQCs4JhzwjMWys4aqCbF
+      decimals: 18
+    - symbol: TUSD
+      name: TrueUSD
+      address: TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4
+      decimals: 18
+    - symbol: SUN
+      name: SUN
+      address: TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S
+      decimals: 18
+    - symbol: USDC
+      name: USD Coin
+      address: TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8
+      decimals: 6
+    - symbol: BTT
+      name: BitTorrent
+      address: TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4
+      decimals: 18
+    - symbol: USDD
+      name: Decentralized USD
+      address: TPYmHEhy5n8TCEfYGqW2rPxsghSfzghPDn
+      decimals: 18
+    - symbol: BUSD
+      name: BUSD Token
+      address: TMz2SWatiAtZVVcH2ebpsbVtYwUPT9EdjH
+      decimals: 18
+    - symbol: ETH
+      name: Ethereum
+      address: TRFe3hT5oYhjSZ6f3ji5FJ7YCfrkWnHRvh
+      decimals: 18
+    - symbol: wstUSDT
+      name: Wrapped Staked USDT
+      address: TGkxzkDKyMeq2T7edKnyjZoFypyzjkkssq
+      decimals: 18
+    - symbol: stUSDT
+      name: Staked USDT
+      address: TThzxNRLrW2Brp9DcTQU8i4Wd9udCWEdZ3
+      decimals: 18
+    - symbol: NFT
+      name: APENFT
+      address: TFczxzPhnThNSqr5by8tvxsdCFRRz6cPNq
+      decimals: 6
+    - symbol: USDJ
+      name: JUST Stablecoin
+      address: TMwFHYXLJaRUPeW6421aqXL4ZEzPRFGkGT
+      decimals: 18
+    - symbol: USDC
+      name: USD Coin
+      address: TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8
+      decimals: 6
     - symbol: WJST
       name: Wrapped JST
       address: TXk9LnTnLN7oH96H3sKxJayMxLxR9M4ZD6
@@ -8,7 +96,94 @@ tokens:
       name: Wrapped JST Old
       address: TCczUFrX1u4v1mzjBVXsiVyehj1vCaNxDt
       decimals: 18
-    - symbol: JST
-      name: JUST
-      address: TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9
-      decimals: 18
+  jtokens:
+    - symbol: jTRX
+      name: JTOKEN_TRX
+      address: TE2RzoSV3wFK99w6J9UnnZ4vLfXYoxvRwP
+      decimals: 8
+      underlying:
+    - symbol: jUSDD
+      name: JTOKEN_USDD
+      address: TX7kybeP6UwTBRHLNPYmswFESHfyjm9bAS
+      decimals: 8
+      underlying: TPYmHEhy5n8TCEfYGqW2rPxsghSfzghPDn
+    - symbol: jUSDT
+      name: JTOKEN_USDT
+      address: TXJgMdjVX5dKiQaUi9QobwNxtSQaFqccvd
+      decimals: 8
+      underlying: TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
+    - symbol: jWSTUSDT
+      name: JTOKEN_WSTUSDT
+      address: TD5SdLw5scR6mXgyMK2xKrFJpauDjpKqrW
+      decimals: 8
+      underlying: TGkxzkDKyMeq2T7edKnyjZoFypyzjkkssq
+    - symbol: jsTRX
+      name: JTOKEN_STRX
+      address: TJQ9rbVe9ei3nNtyGgBL22Fuu2xYjZaLAQ
+      decimals: 8
+      underlying: TU3kjFuhtEo42tsCBtfYUAZxoqQ4yuSLQ5
+    - symbol: jSUN
+      name: JTOKEN_SUN
+      address: TPXDpkg9e3eZzxqxAUyke9S4z4pGJBJw9e
+      decimals: 8
+      underlying: TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S
+    - symbol: jBTT
+      name: JTOKEN_BTT
+      address: TUaUHU9Dy8x5yNi1pKnFYqHWojot61Jfto
+      decimals: 8
+      underlying: TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4
+    - symbol: jNFT
+      name: JTOKEN_NFT
+      address: TFpPyDCKvNFgos3g3WVsAqMrdqhB81JXHE
+      decimals: 8
+      underlying: TFczxzPhnThNSqr5by8tvxsdCFRRz6cPNq
+    - symbol: jJST
+      name: JTOKEN_JST
+      address: TWQhCXaWz4eHK4Kd1ErSDHjMFPoPc9czts
+      decimals: 8
+      underlying: TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9
+    - symbol: jWIN
+      name: JTOKEN_WIN
+      address: TRg6MnpsFXc82ymUPgf5qbj59ibxiEDWvv
+      decimals: 8
+      underlying: TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7
+    - symbol: jUSDJ
+      name: JTOKEN_USDJ
+      address: TL5x9MtSnDy537FXKx53yAaHRRNdg9TkkA
+      decimals: 8
+      underlying: TMwFHYXLJaRUPeW6421aqXL4ZEzPRFGkGT
+    - symbol: jUSDC
+      name: JTOKEN_USDC
+      address: TNSBA6KvSvMoTqQcEgpVK7VhHT3z7wifxy
+      decimals: 8
+      underlying: TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8
+    - symbol: jTUSD
+      name: JTOKEN_TUSD
+      address: TSXv71Fy5XdL3Rh2QfBoUu3NAaM4sMif8R
+      decimals: 8
+      underlying: TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4
+    - symbol: jBTC
+      name: JTOKEN_BTC
+      address: TLeEu311Cbw63BcmMHDgDLu7fnk9fqGcqT
+      decimals: 8
+      underlying: TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9
+    - symbol: jETH
+      name: JTOKEN_ETH
+      address: TWBxQMb6RD3qmkXUXpNwVCYbL8SHNreru6
+      decimals: 8
+      underlying: TRFe3hT5oYhjSZ6f3ji5FJ7YCfrkWnHRvh
+    - symbol: jWBTT
+      name: JTOKEN_WBTT
+      address: TUY54PVeH6WCcYCd6ZXXoBDsHytN9V5PXt
+      decimals: 8
+      underlying: TKfjV9RNKJJCqPvBtK8L7Knykh7DNWvnYt
+    - symbol: jSUNOLD
+      name: JTOKEN_SUNOLD
+      address: TGBr8uh9jBVHJhhkwSJvQN2ZAKzVkxDmno
+      decimals: 8
+      underlying: TKkeiboTkxXKJpbmVFbv4a8ov5rAfRDMf9
+    - symbol: jETHOLD
+      name: JTOKEN_ETHOLD
+      address: TR7BUFRQeq1w5jAZf1FKx85SHuX6PfMqsV
+      decimals: 8
+      underlying: TRFe3hT5oYhjSZ6f3ji5FJ7YCfrkWnHRvh

@@ -20,6 +20,7 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.SortedMap;
@@ -36,6 +37,7 @@ public class EthJsonRpc implements Web3jQuery {
     this.jsonRpcPool = jsonRpcPool;
   }
 
+  // TODO: cache 3 seconds
   public BigInteger getCurrentHeight() throws Web3jQueryException {
     Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
     try {
@@ -110,10 +112,11 @@ public class EthJsonRpc implements Web3jQuery {
     }
   }
 
-  public long getBlockTime(BigInteger height) throws Web3jQueryException {
+  public Instant getBlockTime(BigInteger height) throws Web3jQueryException {
     BlockDTO blockDTO = getBlock(height);
     try {
-      return Long.parseLong(blockDTO.getTimestamp()) * 1000;  // in ms
+      long epoch = Long.parseLong(blockDTO.getTimestamp());
+      return Instant.ofEpochSecond(epoch);
     } catch (Exception e) {
       String exceptionMsg = "getBlockTime exception at " + height;
       throw new Web3jQueryException(exceptionMsg, e);

@@ -7,6 +7,7 @@ import org.tron.justlend.justlendapiserver.utils.blockchain.tron.TronAddressUtil
 import org.tron.justlend.justlendapiserver.utils.blockchain.tron.TronJsonRpc;
 import org.tron.justlend.justlendapiserver.utils.web3j.dto.TransactionReceiptDTO;
 
+import java.time.Instant;
 import java.util.List;
 
 public abstract class TronEventChaser extends EventChaser {
@@ -15,7 +16,7 @@ public abstract class TronEventChaser extends EventChaser {
   }
 
   @Override
-  protected List<EventLog> getEventLog(TransactionReceiptDTO transactionReceiptDTO, long timestamp) {
+  protected List<EventLog> getEventLog(TransactionReceiptDTO transactionReceiptDTO, Instant timestamp) {
     return transactionReceiptDTO.getLogs().stream().map(
       log -> EventLog.builder()
                .contractAddress(TronAddressUtils.hexToBase58(log.getAddress()))  // hex to base58 address

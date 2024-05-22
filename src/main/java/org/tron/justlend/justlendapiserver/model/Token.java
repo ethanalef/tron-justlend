@@ -1,4 +1,13 @@
 package org.tron.justlend.justlendapiserver.model;
 
-public record Token(String symbol, String address, int decimals) {
+import lombok.*;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Token {
+  private String symbol;
+  private String address;
+  private int decimals;
 }

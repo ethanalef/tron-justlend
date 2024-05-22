@@ -21,14 +21,13 @@ import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.EthLog;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
-public class Web3jWrapperTest extends JustLendApiServerApplicationTests {
+class Web3jWrapperTest extends JustLendApiServerApplicationTests {
   @Qualifier("tronJsonRpcPool")
   @Autowired
   JsonRpcPool jsonRpcPool;
@@ -36,7 +35,7 @@ public class Web3jWrapperTest extends JustLendApiServerApplicationTests {
   Tokens tokens;
 
   @Test
-  void test() throws ExecutionException, InterruptedException, TimeoutException {
+  void test() throws IOException {
     Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
     String address = TronAddressUtils.base58ToHex("TKRQdrYXgrFSBx6jjfqRv6vFdsDZA9iG4q");
     EthFilter filter = new EthFilter(DefaultBlockParameter.valueOf(BigInteger.valueOf(61444271)), DefaultBlockParameter.valueOf(BigInteger.valueOf(61447175)), address);
@@ -44,28 +43,37 @@ public class Web3jWrapperTest extends JustLendApiServerApplicationTests {
   }
 
   @Test
-  void ethGetBlockByNumberTest() throws ExecutionException, InterruptedException, TimeoutException {
+  void ethGetBlockByNumberTest() throws IOException {
     Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
     EthBlock block = web3jWrapper.ethGetBlockByNumber(DefaultBlockParameter.valueOf(BigInteger.valueOf(46633933)));
     List<EthBlock.TransactionResult> txn = block.getBlock().getTransactions();
   }
 
   @Test
-  void ethCallTest() throws ExecutionException, InterruptedException, TimeoutException {
+  void ethCallTest() throws IOException {
     Web3jWrapper web3jWrapper = jsonRpcPool.getWeb3j();
-    Token token = tokens.getTronTokenBySymbol("WJST");
+    Token token = tokens.getTokenBySymbol("WJST");
     Function function = ConstantFunction.name();
     String data = FunctionEncoder.encode(function);
-    Transaction transaction = createEthCallTransaction(null, TronAddressUtils.base58ToHex(token.address()), data);
+    Transaction transaction = createEthCallTransaction(null, TronAddressUtils.base58ToHex(token.getAddress()), data);
     EthCall ethCall = web3jWrapper.ethCall(transaction);
     List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
     String result = results.getFirst().getValue().toString(); //  Wrapped JST
 
     function = ConstantFunction.decimals();
     data = FunctionEncoder.encode(function);
-    transaction = createEthCallTransaction(null, TronAddressUtils.base58ToHex(token.address()), data);
+    transaction = createEthCallTransaction(null, TronAddressUtils.base58ToHex(token.getAddress()), data);
     ethCall = web3jWrapper.ethCall(transaction);
     results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
     result = results.getFirst().getValue().toString();
+  }
+
+  @Test
+  void loopEthCall() throws IOException {
+//    while (true) {
+//      long t0 = System.currentTimeMillis();
+//      jsonRpcPool.getWeb3j().ethBlockNumber();
+//      System.out.println("done " + (System.currentTimeMillis() - t0));
+//    }
   }
 }

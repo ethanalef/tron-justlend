@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.tron.justlend.justlendapiserver.chainchaser.Event;
 import org.tron.justlend.justlendapiserver.chainchaser.EventSignature;
 import org.tron.justlend.justlendapiserver.chainchaser.dto.EventLog;
 import org.tron.justlend.justlendapiserver.chainchaser.tron.TronEventChaser;
@@ -20,7 +19,9 @@ import org.tron.justlend.justlendapiserver.utils.blockchain.tron.TronJsonRpc;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Instant;
 
+import static org.tron.justlend.justlendapiserver.chainchaser.Event.GOVERNANCE_USER;
 import static org.tron.justlend.justlendapiserver.chainchaser.EventSignature.*;
 
 @Slf4j
@@ -53,12 +54,12 @@ public class GovernanceUserEventChaser extends TronEventChaser {
     );
     contract = Lists.newArrayList(
       contracts.getTron().get("GovernorBravoDelegator"),
-      tokens.getTronTokenBySymbol("WJST").address(),
-      tokens.getTronTokenBySymbol("WJSTOLD").address()
+      tokens.getTokenBySymbol("WJST").getAddress(),
+      tokens.getTokenBySymbol("WJSTOLD").getAddress()
     );
-    event = Event.GOVERNANCE_USER;
-    range = BigInteger.valueOf(10000);
-    startHeight = BigInteger.valueOf(10000000);
+    event = GOVERNANCE_USER;
+    range = BigInteger.valueOf(500000);
+    startHeight = BigInteger.valueOf(50343490);
   }
 
   @Override
@@ -84,7 +85,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
           break;
       }
     } catch (Exception e) {
-      logger.error("Error processing TRON event", e);
+      logger.error(event, e);
       throw new ServiceException(event + " failed for " + eventLog.getUniqueId(), e);
     }
   }
@@ -95,7 +96,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
     String userAddress = TronAddressUtils.hexToBase58(eventLog.topics().get(1));
     Integer proposalId = Integer.parseInt(eventLog.topics().get(2), 16);
     BigInteger voteCnt = new BigInteger(eventLog.getData(1), 16);
-    String amount = new BigDecimal(voteCnt).movePointLeft(tokens.getTronTokenBySymbol("WJST").decimals()).toPlainString();
+    String amount = new BigDecimal(voteCnt).movePointLeft(tokens.getTokenBySymbol("WJST").getDecimals()).toPlainString();
     int supportType = Integer.parseInt(eventLog.getData(0), 16);
     Integer opType = null;
     if (supportType == 1)
@@ -109,7 +110,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
     // 操作紀錄 - 回收
     // e.g. online be1f0ea87d894580a1fbd69eb282a448439615485ba3f3c9118636dfa95768e8
     BigInteger amountRaw = new BigInteger(eventLog.getData(0), 16);
-    String amount = new BigDecimal(amountRaw).movePointLeft(tokens.getTronTokenBySymbol("WJST").decimals()).toPlainString();
+    String amount = new BigDecimal(amountRaw).movePointLeft(tokens.getTokenBySymbol("WJST").getDecimals()).toPlainString();
     if ("0".equals(amount)) {
       return;
     }
@@ -122,7 +123,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
   private void processDeposit(EventLog eventLog) {
     // 操作紀錄 - 兑换选票 deposit: get votes (WJST) from JST
     // e.g. nile 473b208f80b4da35cfad8e394cf718bc847e00a37ba61b68db10d3acec8805ac
-    String wjst = tokens.getTronTokenBySymbol("WJST").address();
+    String wjst = tokens.getTokenBySymbol("WJST").getAddress();
     // only accept deposit via WJST contract to filter out deposit event in proposalCreate;
     // prevent from missing record, ignore non-target contract check if getTransactionInfoById failed
     if (!wjst.equals(eventLog.to())) {
@@ -133,7 +134,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
       String userAddress = eventLog.from(); // origin txn.getResult().getFrom()
       Integer opType = VoteRecord.GET_VOTE.getType();
       BigInteger amountRaw = new BigInteger(eventLog.getData(0), 16);
-      String amount = new BigDecimal(amountRaw).movePointLeft(tokens.getTronTokenBySymbol("WJST").decimals()).toPlainString();
+      String amount = new BigDecimal(amountRaw).movePointLeft(tokens.getTokenBySymbol("WJST").getDecimals()).toPlainString();
       upsertLendVoteRecord(eventLog, opType, userAddress, null, amount);
     }
   }
@@ -141,8 +142,8 @@ public class GovernanceUserEventChaser extends TronEventChaser {
   private void processWithraw(EventLog eventLog) {
     // 操作紀錄 - 赎回失效选票 WJSTOLD事件 WJSTOLD -> JST 或 赎回JST WJST事件 WJST -> JST
     // e.g. online 66a16b31bbc97cf15cce316965009f894fa1b8d4dd9b10f7fd8c8d45d4025910
-    String wjst = tokens.getTronTokenBySymbol("WJST").address();
-    String oldWjst = tokens.getTronTokenBySymbol("WJSTOLD").address();
+    String wjst = tokens.getTokenBySymbol("WJST").getAddress();
+    String oldWjst = tokens.getTokenBySymbol("WJSTOLD").getAddress();
     // only accept withdrawal via WJST or old WJST contract to filter out unwanted method like withdrawToken, withdrawTokenCFO
     // e.g. unwanted: https://nile.tronscan.io/#/transaction/ac0e422903faa0940a2b3f6c63e6a7f1d588f341306193cfbec6ba0946939429.
     // prevent from missing record, ignore non-target contract check if getTransactionInfoById failed
@@ -160,7 +161,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
     }
     String userAddress = eventLog.from();
     BigInteger amountRaw = new BigInteger(eventLog.getData(0), 16);
-    String amount = new BigDecimal(amountRaw).movePointLeft(tokens.getTronTokenBySymbol("JST").decimals()).toPlainString();
+    String amount = new BigDecimal(amountRaw).movePointLeft(tokens.getTokenBySymbol("JST").getDecimals()).toPlainString();
     upsertLendVoteRecord(eventLog, opType, userAddress, null, amount);
   }
 
@@ -172,7 +173,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
 
     String txId = eventLog.transactionId();
     int logIndex = eventLog.logIndex();
-    long blockTimestamp = eventLog.timestamp();
+    Instant eventTime = eventLog.timestamp();
 
     LendVoteRecord lendVoteRecord = LendVoteRecord.builder()
                                       .userAddress(userAddress)
@@ -181,7 +182,7 @@ public class GovernanceUserEventChaser extends TronEventChaser {
                                       .amount(amount)
                                       .txId(txId)
                                       .logIndex(logIndex)
-                                      .blockTimestamp(blockTimestamp)
+                                      .eventTime(eventTime)
                                       .build();
     lendVoteRecordService.upsert(lendVoteRecord);
   }
