@@ -67,7 +67,7 @@ public abstract class EventChaser {
     if (found > 0) {
       log.info("{} Found {}", event, eventLogs.size());
     }
-    log.debug("{} step costs {}", event, System.currentTimeMillis() - t);
+    log.debug("{} step in {} ms", event, System.currentTimeMillis() - t);
   }
 
   public List<EventLog> fetchEventLog(BigInteger from, BigInteger to) {

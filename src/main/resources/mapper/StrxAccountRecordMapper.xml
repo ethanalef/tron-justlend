@@ -7,7 +7,7 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
-    <result column="op_type" jdbcType="INTEGER" property="opType" />
+    <result column="op_type" jdbcType="TINYINT" property="opType" />
     <result column="amount" jdbcType="VARCHAR" property="amount" />
     <result column="usd" jdbcType="VARCHAR" property="usd" />
     <result column="tx_id" jdbcType="VARCHAR" property="txId" />

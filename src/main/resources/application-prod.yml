@@ -5,7 +5,7 @@ server:
 spring:
   #----------database---------------
   datasource:
-    jdbc-url: jdbc:mysql://xxx.xxx.xx.xx:xxxx/justlend-nile?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    jdbc-url: jdbc:mysql://xxx.xxx.xx.xx:xxxx/justlend?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
     username:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,3 +19,6 @@ logging:
 #----------properties---------------
 uri:
   price-centre: https://c.tronlink.org/v1/cryptocurrency/getprice
+
+schedule:
+  price-centre-feed: 60000
