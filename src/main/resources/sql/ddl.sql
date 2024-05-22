@@ -28,14 +28,13 @@ CREATE TABLE `lend_vote_record` (
     `proposal_id` int DEFAULT NULL,
     `amount` varchar(64) NOT NULL,
     `tx_id` varchar(64) NOT NULL,
-    `log_index` int unsigned NOT NULL,
-    `event_time` timestamp(6) NOT NULL,
+    `log_index` tinyint unsigned NOT NULL,
+    `event_time` datetime NOT NULL,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id` DESC),
-    UNIQUE KEY `uk_tx_id_log_index` (`tx_id`,`log_index`),
-    KEY `idx_user_address` (`user_address`),
-    KEY `idx_event_time` (`event_time` DESC)
+    UNIQUE KEY `uk_tx_id_log_index` (`tx_id`,`log_index` DESC),
+    KEY `idx_address_event_time` (`user_address`, `event_time` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS strx_account_record;
@@ -46,11 +45,11 @@ CREATE TABLE strx_account_record (
     `amount` varchar(64) NOT NULL,
     `usd` varchar(64) DEFAULT '',
     `tx_id` varchar(64) NOT NULL,
-    `log_index` int unsigned NOT NULL,
+    `log_index` tinyint unsigned NOT NULL,
     `event_time` datetime NOT NULL,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id` DESC),
+    UNIQUE KEY `uk_address` (`user_address`, `tx_id`, `log_index` DESC),
     KEY `idx_address_event_time` (`user_address`, `event_time` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
