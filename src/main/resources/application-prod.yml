@@ -20,5 +20,18 @@ logging:
 uri:
   price-centre: https://c.tronlink.org/v1/cryptocurrency/getprice
 
-schedule:
-  price-centre-feed: 60000
+task:
+  enabled: true
+  price-centre-feed:
+    enabled: true
+    interval: 60000
+  strx-account-record-chaser:
+    enabled: true
+    interval: 4000
+    range: 30000
+    start: 61564523
+  gov-account-record-chaser:
+    enabled: true
+    interval: 4000
+    range: 500000
+    start: 50343490

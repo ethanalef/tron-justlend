@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.tron.justlend.justlendapiserver.chainchaser.EventSignature;
 import org.tron.justlend.justlendapiserver.chainchaser.dto.EventLog;
 import org.tron.justlend.justlendapiserver.chainchaser.tron.TronEventChaser;
+import org.tron.justlend.justlendapiserver.config.AppProperties;
 import org.tron.justlend.justlendapiserver.config.Tokens;
 import org.tron.justlend.justlendapiserver.core.ServiceException;
 import org.tron.justlend.justlendapiserver.enums.StrxStakeRecord;
@@ -28,18 +29,20 @@ import static org.tron.justlend.justlendapiserver.chainchaser.EventSignature.*;
 @Slf4j
 @Component
 public class StrxStakeUserEventChaser extends TronEventChaser {
+  private final AppProperties appProperties;
   private final Tokens tokens;
   private final TokenService tokenService;
   private final StrxAccountRecordService strxAccountRecordService;
 
 
 
-  protected StrxStakeUserEventChaser(TronJsonRpc tronJsonRpc, ChaserProgressService chaserProgressService,
+  protected StrxStakeUserEventChaser(TronJsonRpc tronJsonRpc, ChaserProgressService chaserProgressService, AppProperties appProperties,
                                      Tokens tokens,
                                      TokenService tokenService,
                                      StrxAccountRecordService strxAccountRecordService
   ) {
     super(tronJsonRpc, chaserProgressService);
+    this.appProperties = appProperties;
     this.tokens = tokens;
     this.tokenService = tokenService;
     this.strxAccountRecordService = strxAccountRecordService;
@@ -57,8 +60,8 @@ public class StrxStakeUserEventChaser extends TronEventChaser {
       tokens.getTokenBySymbol("sTRX").getAddress()
     );
     event = STRX_USER;
-    range = BigInteger.valueOf(10000);
-    startHeight = BigInteger.valueOf(50200000);
+    range = BigInteger.valueOf(appProperties.getStrxAccountRecordChaserRange());
+    startHeight = BigInteger.valueOf(appProperties.getStrxAccountRecordChaserStart());
   }
 
   @Override
@@ -90,12 +93,12 @@ public class StrxStakeUserEventChaser extends TronEventChaser {
     String userAddress = TronAddressUtils.hexToBase58(eventLog.topics().get(1));
     Token sTrx = tokens.getTokenBySymbol("sTRX");
     if (STRX_DEPOSIT.equals(eventSignature)) {
-      BigInteger rawAmount = new BigInteger(eventLog.getData(2), 16);
+      BigInteger rawAmount = new BigInteger(eventLog.getData(1), 16);
       BigDecimal amount = tokenService.getAmount(sTrx, rawAmount);
       BigDecimal usd = tokenService.getUsd(sTrx, amount);
       upsertStrxAccountRecord(eventLog, StrxStakeRecord.DEPOSIT.getType(), userAddress, amount, usd);
     } else {
-      BigInteger rawAmount = new BigInteger(eventLog.getData(1), 16);
+      BigInteger rawAmount = new BigInteger(eventLog.getData(0), 16);
       BigDecimal amount = tokenService.getAmount(sTrx, rawAmount);
       BigDecimal usd = tokenService.getUsd(sTrx, amount);
       upsertStrxAccountRecord(eventLog, StrxStakeRecord.WITHDRAW.getType(), userAddress, amount, usd);

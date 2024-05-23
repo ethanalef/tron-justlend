@@ -17,7 +17,7 @@ public class PriceCentreFeedTask {
   private final TokenService tokenService;
   private final PriceCentreFeedService priceCentreFeedService;
 
-  @Scheduled(fixedDelayString = "${schedule.price-centre-feed}")
+  @Scheduled(fixedDelayString = "${task.price-centre-feed.interval}")
   public void updateTokenPriceTask() {
     // TODO: use @Timed for measuring cost
     long t = System.currentTimeMillis();

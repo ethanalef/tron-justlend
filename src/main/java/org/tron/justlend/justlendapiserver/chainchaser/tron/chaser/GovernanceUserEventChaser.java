@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.tron.justlend.justlendapiserver.chainchaser.EventSignature;
 import org.tron.justlend.justlendapiserver.chainchaser.dto.EventLog;
 import org.tron.justlend.justlendapiserver.chainchaser.tron.TronEventChaser;
+import org.tron.justlend.justlendapiserver.config.AppProperties;
 import org.tron.justlend.justlendapiserver.config.Contracts;
 import org.tron.justlend.justlendapiserver.config.Tokens;
 import org.tron.justlend.justlendapiserver.core.ServiceException;
@@ -27,18 +28,20 @@ import static org.tron.justlend.justlendapiserver.chainchaser.EventSignature.*;
 @Slf4j
 @Component
 public class GovernanceUserEventChaser extends TronEventChaser {
+  private final AppProperties appProperties;
   private final Contracts contracts;
   private final Tokens tokens;
   private final LendVoteRecordService lendVoteRecordService;
 
 
 
-  protected GovernanceUserEventChaser(TronJsonRpc tronJsonRpc, ChaserProgressService chaserProgressService,
+  protected GovernanceUserEventChaser(TronJsonRpc tronJsonRpc, ChaserProgressService chaserProgressService, AppProperties appProperties,
                                       Contracts contracts,
                                       Tokens tokens,
                                       LendVoteRecordService lendVoteRecordService
   ) {
     super(tronJsonRpc, chaserProgressService);
+    this.appProperties = appProperties;
     this.contracts = contracts;
     this.tokens = tokens;
     this.lendVoteRecordService = lendVoteRecordService;
@@ -58,8 +61,8 @@ public class GovernanceUserEventChaser extends TronEventChaser {
       tokens.getTokenBySymbol("WJSTOLD").getAddress()
     );
     event = GOVERNANCE_USER;
-    range = BigInteger.valueOf(500000);
-    startHeight = BigInteger.valueOf(50343490);
+    range = BigInteger.valueOf(appProperties.getGovAccountRecordChaserRange());
+    startHeight = BigInteger.valueOf(appProperties.getGovAccountRecordChaserStart());
   }
 
   @Override
