@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tron.justlend.justlendapiserver.chainchaser.dto.EventLog;
-import org.tron.justlend.justlendapiserver.core.ServiceException;
 import org.tron.justlend.justlendapiserver.model.ChaserProgress;
 import org.tron.justlend.justlendapiserver.service.ChaserProgressService;
 import org.tron.justlend.justlendapiserver.utils.web3j.Web3jQuery;
@@ -55,8 +54,8 @@ public abstract class EventChaser {
     long t = System.currentTimeMillis();
     BigInteger currentHeight = web3jQuery.getCurrentHeight();
     if (currentHeight.compareTo(from) < 0) {
-      String errorMessage = String.format("Current height %s not yet reach %s", currentHeight, from);
-      throw new ServiceException(errorMessage);
+      log.warn("Query height = {} but current height = {} diff = {}}", currentHeight, from, from.subtract(currentHeight));
+      return;
     }
     BigInteger to = currentHeight.compareTo(from.add(range)) < 0 ? currentHeight : from.add(range);
     List<EventLog> eventLogs = fetchEventLog(from, to);

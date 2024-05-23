@@ -18,6 +18,6 @@ public class ChaserProgressServiceImpl extends AbstractService<ChaserProgress> i
 
   @Override
   public void upsert(String event, BigInteger processedHeight) {
-    chaserProgressMapper.upsert(event, processedHeight);
+    chaserProgressMapper.upsert(ChaserProgress.builder().event(event).processedHeight(processedHeight).build());
   }
 }
