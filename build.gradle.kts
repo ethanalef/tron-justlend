@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.2.5"
+	id("org.springframework.boot") version "3.3.0"
 	id("io.spring.dependency-management") version "1.1.4"
 }
 
@@ -22,8 +22,8 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web:3.2.5")
-	implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.5")
+	implementation("org.springframework.boot:spring-boot-starter-web:3.3.0")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc:3.3.0")
 	implementation("org.apache.commons:commons-lang3")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 	implementation("tk.mybatis:mapper:4.3.0")
@@ -42,7 +42,7 @@ dependencies {
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.5")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:3.3.0")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 	testImplementation("org.freemarker:freemarker")
 	testImplementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
