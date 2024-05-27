@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 import org.tron.justlend.justlendapiserver.config.AppProperties;
 import org.tron.justlend.justlendapiserver.core.AbstractService;
@@ -41,7 +42,7 @@ public class PriceCentreFeedServiceImpl extends AbstractService<PriceCentreFeed>
   }
 
   @Override
-  @Retryable(retryFor = { ServiceException.class })
+  @Retryable(retryFor = { ResourceAccessException.class, ServiceException.class })
   public List<PriceCentreFeed> fetch(List<String> symbols) {
     String symbolsJoined = String.join(",", symbols);
     ResponseEntity<String> response = restClient.get()
